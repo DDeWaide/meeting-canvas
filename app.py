@@ -1,5 +1,5 @@
 """
-Meeting Canvas v5 â€” Multi-Agent Capacitor Architecture
+Meeting Canvas v5 ” Multi-Agent Capacitor Architecture
 N agents with dynamic scaling, specialization shifting, parallel extraction.
 
 Run: uvicorn app:app --reload
@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from anthropic import Anthropic
 import websockets
 
-# â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- Config --------------------------------------------------
 DEEPGRAM_API_KEY = os.environ.get("DEEPGRAM_API_KEY", "")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 LLM_MODEL = os.environ.get("LLM_MODEL", "claude-haiku-4-5-20251001")
@@ -33,7 +33,7 @@ async def get_frontend():
         return HTMLResponse(f.read())
 
 
-# â”€â”€ Prompts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- Prompts -------------------------------------------------
 ICON_TYPES = """VISUAL TYPES: warehouse, factory, office, store, hospital, school, hotel, house, restaurant, airport, stadium, church, castle, lighthouse, truck, car, plane, train, ship, bicycle, bus, helicopter, forklift, rocket, port, bridge, road, tower, crane, windmill, dam, pipeline, person, team, doctor, chef, student, worker, baby, audience, database, cloud, server, laptop, phone, monitor, printer, wifi, code, robot, chip, satellite, document, book, folder, email, newspaper, certificate, map, blueprint, money, chart, target, trophy, handshake, briefcase, calendar, presentation, stamp, invoice, plate, cup, bottle, pot, ingredient, cake, pizza, apple, tree, mountain, sun, water, leaf, flower, fire, snowflake, globe, animal, key, lock, camera, music, gift, flag, bell, clock, lightbulb, compass, magnet, anchor, umbrella, toolbox, package, barcode, shield, heart, star, warning, beaker, microscope, atom, dna, pill, idea, alert, question, checkmark, loop, connection, growth, decline, generic"""
 
 BASE_PROMPT = f"""You are a real-time meeting whiteboard assistant. You maintain a LIVING whiteboard.
@@ -88,7 +88,7 @@ SPEC_FOCUS = {
 SUMMARY_PROMPT = """You are an executive meeting summarizer. Produce a clean, professional markdown summary with sections: Overview, Key Topics, Decisions, Action Items, Key Facts, Open Questions, Clarifications Needed, Discussion Summary. Be concise and factual."""
 
 
-# â”€â”€ Agent â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- Agent ---------------------------------------------------
 class Agent:
     def __init__(self, agent_id, specialization="generalist"):
         self.id = agent_id
@@ -228,7 +228,7 @@ class AgentPool:
         }
 
 
-# â”€â”€ Content Classifier â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- Content Classifier --------------------------------------
 def classify_content(text):
     t = text.lower()
     scores = {"structural": 0, "notes": 0, "relationships": 0, "ambiguity": 0}
@@ -243,7 +243,7 @@ def classify_content(text):
     return max(scores, key=scores.get) if max(scores.values()) > 0 else "generalist"
 
 
-# â”€â”€ Diagram State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- Diagram State -------------------------------------------
 class DiagramState:
     def __init__(self):
         self.zones = {}
@@ -386,7 +386,7 @@ class DiagramState:
         return "\n".join(parts)
 
 
-# â”€â”€ WebSocket â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- WebSocket -----------------------------------------------
 @app.websocket("/ws")
 async def websocket_endpoint(ws: WebSocket):
     await ws.accept()
@@ -654,7 +654,7 @@ async def metrics():
     return p.to_status()
 
 
-# â”€â”€ Diagram Export (Draw.io format â€” importable by Lucidchart, Draw.io, etc.) â”€
+# -- Diagram Export (Draw.io format) -------------------------
 from fastapi.responses import Response
 import html as html_mod
 
