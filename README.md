@@ -24,16 +24,19 @@ Real-time AI meeting visualization. Speak into your mic — AI agents listen, ex
 ### 2. Install & Run
 
 ```bash
-# Clone or download these files
-pip install -r requirements.txt
-
-# Option A: Set env vars (private use)
+# Option A: Set env vars
+# Mac/Linux:
 export DEEPGRAM_API_KEY="your-key"
 export ANTHROPIC_API_KEY="your-key"
-uvicorn app:app --reload
 
-# Option B: No env vars (enter keys in browser)
-uvicorn app:app --reload
+# Windows PowerShell:
+$env:DEEPGRAM_API_KEY="your-key"
+$env:ANTHROPIC_API_KEY="your-key"
+
+python -m uvicorn app:app --reload
+
+# Option B: Just run it (enter keys in browser) ← easiest
+python -m uvicorn app:app --reload
 ```
 
 ### 3. Open
